@@ -102,7 +102,7 @@ fun BasicBottomSheet(
                         of other elements in box on tap gestures.*/
                         detectTapGestures()
                     },
-                    isVisible = visible,
+                    shouldBeVisible = visible,
                     onCloseSheet = onCloseSheet,
                     sheetColor = sheetColor,
                     closeSheetThreshold = closeSheetThreshold,
@@ -121,7 +121,7 @@ fun BasicBottomSheet(
 @Composable
 private fun BoxScope.Sheet(
     modifier: Modifier = Modifier,
-    isVisible: Boolean,
+    shouldBeVisible: Boolean,
     onCloseSheet: () -> Unit,
     sheetColor: Color = MaterialTheme.colors.surface,
     closeSheetThreshold: Dp,
@@ -137,12 +137,12 @@ private fun BoxScope.Sheet(
         mutableStateOf(MutableTransitionState(false))
     }
 
-    LaunchedEffect(isVisible) {
-        if (isVisible) {
+    LaunchedEffect(shouldBeVisible) {
+        if (shouldBeVisible) {
             sheetVerticalOffset = 0f
         }
 
-        sheetVisibilityTransitionState.targetState = isVisible
+        sheetVisibilityTransitionState.targetState = shouldBeVisible
     }
 
     AnimatedVisibility(
@@ -185,13 +185,20 @@ private fun BoxScope.Sheet(
         }
     }
 
-    if (!isVisible
-        && !sheetVisibilityTransitionState.targetState
-        && sheetVisibilityTransitionState.isIdle
+    if (!shouldBeVisible
+        && isSheetReadyToClose(
+            !sheetVisibilityTransitionState.targetState,
+            sheetVisibilityTransitionState.isIdle
+        )
     ) {
         onSheetClosedCallback.invoke()
     }
 }
+
+private fun isSheetReadyToClose(targetState: Boolean, isTransitionIdle: Boolean): Boolean {
+    return !targetState && isTransitionIdle
+}
+
 
 @Composable
 private fun SheetHandle(
