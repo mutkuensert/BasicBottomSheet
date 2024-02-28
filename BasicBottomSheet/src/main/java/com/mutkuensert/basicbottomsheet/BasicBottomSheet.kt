@@ -185,18 +185,13 @@ private fun BoxScope.Sheet(
         }
     }
 
-    if (!shouldBeVisible
-        && isSheetReadyToClose(
-            !sheetVisibilityTransitionState.targetState,
-            sheetVisibilityTransitionState.isIdle
-        )
-    ) {
+    if (!shouldBeVisible && isSheetReadyToClose(sheetVisibilityTransitionState)) {
         onSheetClosedCallback.invoke()
     }
 }
 
-private fun isSheetReadyToClose(targetState: Boolean, isTransitionIdle: Boolean): Boolean {
-    return !targetState && isTransitionIdle
+private fun isSheetReadyToClose(sheetVisibilityTransitionState: MutableTransitionState<Boolean>): Boolean {
+    return !sheetVisibilityTransitionState.targetState && sheetVisibilityTransitionState.isIdle
 }
 
 
