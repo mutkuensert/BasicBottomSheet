@@ -190,8 +190,8 @@ private fun BoxScope.Sheet(
     }
 }
 
-private fun isSheetReadyToClose(sheetVisibilityTransitionState: MutableTransitionState<Boolean>): Boolean {
-    return !sheetVisibilityTransitionState.targetState && sheetVisibilityTransitionState.isIdle
+private fun isSheetReadyToClose(sheetVisibility: MutableTransitionState<Boolean>): Boolean {
+    return !sheetVisibility.targetState && sheetVisibility.isIdle
 }
 
 
