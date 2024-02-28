@@ -68,6 +68,32 @@ private val DefaultExitTransition = slideOutVertically(
     animationSpec = tween(easing = LinearOutSlowInEasing)
 )
 
+/**
+ * Example usage:
+ * ```
+ * @Composable
+ * fun Screen() {
+ *     var isSheetVisible by remember { mutableStateOf(false) }
+ *
+ *     Button(onClick = { isSheetVisible = true }) {
+ *         Text(text = "Open the bottom sheet")
+ *     }
+ *
+ *     BasicBottomSheet(
+ *         visible = isSheetVisible,
+ *         onCloseSheet = { isSheetVisible = false }
+ *     ) {
+ *         Button(
+ *             onClick = {
+ *                 //invoke some functions
+ *                 isSheetVisible = false //Close the sheet
+ *             }) {
+ *             Text(text = "Some action")
+ *         }
+ *     }
+ * }
+ * ```
+ */
 @Composable
 fun BasicBottomSheet(
     onCloseSheet: () -> Unit,
