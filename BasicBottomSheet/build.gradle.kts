@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
 android {
@@ -54,4 +55,17 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.activity:activity-compose:1.8.2")
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            register("release", MavenPublication::class) {
+                from(components["release"])
+                groupId = "com.github.mutkuensert"
+                artifactId = "basicbottomsheet"
+                version = "1.0"
+            }
+        }
+    }
 }
