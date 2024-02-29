@@ -4,6 +4,65 @@
  <img src="docs/BasicBottomSheet.gif" width="230"/>
 </div>
 
+## Adding the dependency
+Add jitpack into the repositories
+
+```gradle
+maven { url 'https://jitpack.io' }
+```
+
+Add the dependency in build.gradle file.
+```gradle
+implementation 'com.github.mutkuensert:BasicBottomSheet:1.0'
+```
+
+## Basic usage
+Only a boolean is needed to control visibility.
+Wherever BasicBottomSheet composable is placed, it will cover full screen when visible argument is true and completely disappear when false.
+
+```kotlin
+@Composable
+fun Screen() {
+  var isSheetVisible by remember { mutableStateOf(false) }
+
+  Button(onClick = { isSheetVisible = true }) {
+      Text(text = "Open the bottom sheet")
+  }
+
+  BasicBottomSheet(
+      visible = isSheetVisible,
+      onCloseSheet = { isSheetVisible = false }
+  ) {
+      Button(
+          onClick = {
+              //invoke some functions
+              isSheetVisible = false //Close the sheet
+          }) {
+          Text(text = "Some action")
+      }
+  }
+}
+```
+
+## Handle
+If you don't want the handle, just set it to null.
+```kotlin
+BasicBottomSheet(
+    visible = isVisible,
+    dragHandle = null,
+    onCloseSheet = onCloseBottomSheet,
+){}
+```
+
+Or a custom handle can be used, the gesture detection will remain.
+```kotlin
+BasicBottomSheet(
+    visible = isVisible,
+    dragHandle = { Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null) },
+    onCloseSheet = onCloseBottomSheet,
+){}
+```
+
  ## License
 ```xml
 Copyright 2024 Mustafa Utku Ensert
