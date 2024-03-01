@@ -44,6 +44,25 @@ fun Screen() {
 }
 ```
 
+## Parameters
+```kotlin
+@Composable
+fun BasicBottomSheet(
+    onCloseSheet: () -> Unit,
+    modifier: Modifier = Modifier,
+    visible: Boolean,
+    containerColor: Color = Color.Black.copy(0.4f),
+    sheetColor: Color = MaterialTheme.colors.surface,
+    closeSheetThreshold: Dp = 150.dp,
+    shape: Shape = SheetShape,
+    enterTransition: EnterTransition = DefaultEnterTransition,
+    exitTransition: ExitTransition = DefaultExitTransition,
+    dragHandle: @Composable (() -> Unit)? = { Handle() },
+    content: @Composable ColumnScope.() -> Unit
+)
+```
+
+
 ## Handle
 If you don't want the handle, just set it to null.
 ```kotlin
