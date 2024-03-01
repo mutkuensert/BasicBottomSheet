@@ -192,10 +192,11 @@ private fun BoxScope.Sheet(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         sheetOffset = sheetVerticalOffset,
                         onVerticalDrag = { verticalDragDiff ->
-                            sheetVerticalOffset = getSheetVerticalPositionOffset(
-                                currentPosition = sheetVerticalOffset,
-                                positionChange = verticalDragDiff
-                            )
+                            sheetVerticalOffset =
+                                addPositionChangeToCurrentIfNotAboveStartPosition(
+                                    currentPosition = sheetVerticalOffset,
+                                    positionChange = verticalDragDiff
+                                )
                         },
                         onVerticalDragReachedLimit = onCloseSheet,
                         onDragEnd = { sheetVerticalOffset = 0f },
@@ -248,7 +249,7 @@ private fun SheetHandle(
                     onVerticalDrag = { change, dragAmount ->
                         onVerticalDrag.invoke(change.positionChange().y)
 
-                        currentSheetOffset = getSheetVerticalPositionOffset(
+                        currentSheetOffset = addPositionChangeToCurrentIfNotAboveStartPosition(
                             currentSheetOffset,
                             change.positionChange().y
                         )
@@ -294,7 +295,10 @@ private fun Handle(modifier: Modifier = Modifier) {
     )
 }
 
-private fun getSheetVerticalPositionOffset(currentPosition: Float, positionChange: Float): Float {
+private fun addPositionChangeToCurrentIfNotAboveStartPosition(
+    currentPosition: Float,
+    positionChange: Float
+): Float {
     return if (currentPosition + positionChange > 0) {
         currentPosition + positionChange
     } else {
