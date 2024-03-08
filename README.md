@@ -8,7 +8,14 @@
 Add jitpack into the repositories
 
 ```gradle
-maven { url 'https://jitpack.io' }
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 
 Add the dependency in build.gradle file.
