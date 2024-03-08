@@ -9,7 +9,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 21
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -49,7 +49,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation(platform("androidx.compose:compose-bom:2024.02.01"))
+    implementation(platform("androidx.compose:compose-bom:2024.02.02"))
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.material:material")
     implementation("androidx.compose.ui:ui")
