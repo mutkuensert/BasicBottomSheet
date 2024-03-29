@@ -20,7 +20,7 @@ dependencyResolutionManagement {
 
 Add the dependency in build.gradle file.
 ```gradle
-implementation 'com.github.mutkuensert:BasicBottomSheet:1.0'
+implementation 'com.github.mutkuensert:BasicBottomSheet:1.0.1'
 ```
 
 ## Basic usage

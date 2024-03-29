@@ -48,7 +48,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import kotlin.math.roundToInt
 
 private val SheetShape = RoundedCornerShape(
@@ -99,7 +100,7 @@ fun BasicBottomSheet(
     onCloseSheet: () -> Unit,
     modifier: Modifier = Modifier,
     visible: Boolean,
-    containerColor: Color = Color.Black.copy(0.4f),
+    scrimColor: Color = Color.Black.copy(0.4f),
     sheetColor: Color = MaterialTheme.colors.surface,
     closeSheetThreshold: Dp = 150.dp,
     shape: Shape = SheetShape,
@@ -113,12 +114,15 @@ fun BasicBottomSheet(
     LaunchedEffect(visible) { if (visible) shouldCoverScreen = true }
 
     if (shouldCoverScreen) {
-        Popup {
+        Dialog(
+            onDismissRequest = onCloseSheet,
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
             Box(modifier = modifier) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(containerColor)
+                        .background(scrimColor)
                         .clickable(onClick = onCloseSheet)
                 )
 
@@ -192,11 +196,10 @@ private fun BoxScope.Sheet(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         sheetOffset = sheetVerticalOffset,
                         onVerticalDrag = { verticalDragDiff ->
-                            sheetVerticalOffset =
-                                addPositionChangeToCurrentIfNotAboveStartPosition(
-                                    currentPosition = sheetVerticalOffset,
-                                    positionChange = verticalDragDiff
-                                )
+                            sheetVerticalOffset = getSheetVerticalPositionOffset(
+                                currentPosition = sheetVerticalOffset,
+                                positionChange = verticalDragDiff
+                            )
                         },
                         onVerticalDragReachedLimit = onCloseSheet,
                         onDragEnd = { sheetVerticalOffset = 0f },
@@ -249,7 +252,7 @@ private fun SheetHandle(
                     onVerticalDrag = { change, dragAmount ->
                         onVerticalDrag.invoke(change.positionChange().y)
 
-                        currentSheetOffset = addPositionChangeToCurrentIfNotAboveStartPosition(
+                        currentSheetOffset = getSheetVerticalPositionOffset(
                             currentSheetOffset,
                             change.positionChange().y
                         )
@@ -295,7 +298,7 @@ private fun Handle(modifier: Modifier = Modifier) {
     )
 }
 
-private fun addPositionChangeToCurrentIfNotAboveStartPosition(
+private fun getSheetVerticalPositionOffset(
     currentPosition: Float,
     positionChange: Float
 ): Float {
