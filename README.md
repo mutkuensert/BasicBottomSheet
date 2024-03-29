@@ -58,7 +58,7 @@ fun BasicBottomSheet(
     onCloseSheet: () -> Unit,
     modifier: Modifier = Modifier,
     visible: Boolean,
-    containerColor: Color = Color.Black.copy(0.4f),
+    scrimColor: Color = Color.Black.copy(0.4f),
     sheetColor: Color = MaterialTheme.colors.surface,
     closeSheetThreshold: Dp = 150.dp,
     shape: Shape = SheetShape,
